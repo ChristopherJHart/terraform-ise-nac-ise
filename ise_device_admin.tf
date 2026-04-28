@@ -527,7 +527,7 @@ resource "ise_device_admin_authentication_rule" "default_device_admin_authentica
 resource "ise_device_admin_authentication_rule_update_ranks" "device_admin_authentication_rule_update_ranks" {
   for_each = local.device_admin_authentication_rules_by_policy_name
 
-  policy_set_id = ise_device_admin_policy_set.device_admin_policy_set[each.key].id
+  policy_set_id = try(ise_device_admin_policy_set.device_admin_policy_set[each.key].id, ise_device_admin_policy_set.default_device_admin_policy_set[each.key].id)
 
   rules = [
     for rule in each.value : {
@@ -690,7 +690,7 @@ resource "ise_device_admin_authorization_rule" "default_device_admin_authorizati
 resource "ise_device_admin_authorization_rule_update_ranks" "device_admin_authorization_rule_update_ranks" {
   for_each = local.device_admin_authorization_rules_by_policy_name
 
-  policy_set_id = ise_device_admin_policy_set.device_admin_policy_set[each.key].id
+  policy_set_id = try(ise_device_admin_policy_set.device_admin_policy_set[each.key].id, ise_device_admin_policy_set.default_device_admin_policy_set[each.key].id)
 
   rules = [
     for rule in each.value : {
@@ -825,7 +825,7 @@ resource "ise_device_admin_authorization_exception_rule" "device_admin_authoriza
 resource "ise_device_admin_authorization_exception_rule_update_ranks" "device_admin_authorization_exception_rule_update_ranks" {
   for_each = local.device_admin_authorization_exception_rules_by_policy_name
 
-  policy_set_id = ise_device_admin_policy_set.device_admin_policy_set[each.key].id
+  policy_set_id = try(ise_device_admin_policy_set.device_admin_policy_set[each.key].id, ise_device_admin_policy_set.default_device_admin_policy_set[each.key].id)
 
   rules = [
     for rule in each.value : {
